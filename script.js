@@ -1544,29 +1544,3 @@ openCardDevMode = function (index) {
     originalOpenCardDevMode(index);
     incrementStreak();
 };
-
-// ============================================
-// 🎮 تهيئة اللعبة عند التحميل
-// ============================================
-
-// تحميل حالة اللعبة وعرض الكروت
-loadGameState();
-renderCards();
-updateStats();
-updateProgress();
-
-// تشغيل العداد التنازلي كل ثانية
-updateCountdown();
-setInterval(updateCountdown, 1000);
-
-// تحديث الـ timer section
-setInterval(() => {
-    const canOpen = canOpenNewCard();
-    const timerSection = document.getElementById('timerSection');
-    if (!canOpen && gameState.openedCards.length < 188) {
-        timerSection.style.display = 'block';
-    } else {
-        timerSection.style.display = 'none';
-    }
-}, 1000);
-
