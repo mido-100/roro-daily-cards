@@ -869,17 +869,27 @@ function resetGame() {
 // ============================================
 
 let devModeActive = false;
+const DEV_PASSWORD = '1842004';
 
 function toggleDevMode() {
-    devModeActive = !devModeActive;
     const devBtn = document.getElementById('devModeBtn');
 
-    if (devModeActive) {
-        devBtn.classList.add('active');
-        devBtn.querySelector('.btn-icon').textContent = '🔐';
-        alert('⚠️ وضع المطور مفعّل!\nتقدر تفتح أي كرت دلوقتي');
-        renderCardsDevMode();
+    if (!devModeActive) {
+        // طلب الباسورد للتفعيل
+        const password = prompt('🔐 ادخل كلمة السر للدخول لوضع المطور:');
+
+        if (password === DEV_PASSWORD) {
+            devModeActive = true;
+            devBtn.classList.add('active');
+            devBtn.querySelector('.btn-icon').textContent = '🔐';
+            alert('✅ وضع المطور مفعّل!\nتقدر تفتح أي كرت دلوقتي');
+            renderCardsDevMode();
+        } else if (password !== null) {
+            alert('❌ كلمة السر غلط!');
+        }
     } else {
+        // إلغاء وضع المطور
+        devModeActive = false;
         devBtn.classList.remove('active');
         devBtn.querySelector('.btn-icon').textContent = '🔓';
         renderCards();
@@ -1052,206 +1062,6 @@ setInterval(() => {
         renderCards();
     }
 }, 60000);
-
-// ============================================
-// وضع التطوير
-// ============================================
-
-const DEV_PASSWORD = '5050'; // الباسورد لوضع التطوير
-let savedStateBeforeDevMode = null; // حفظ الحالة قبل وضع التطوير
-
-function toggleDevMode() {
-    if (!gameState.devMode) {
-        // تفعيل وضع التطوير - نطلب الباسورد
-        const password = prompt('🔐 أدخل الباسورد لتفعيل وضع التطوير:');
-        if (password === DEV_PASSWORD) {
-            // حفظ الحالة الحالية قبل التفعيل
-            savedStateBeforeDevMode = {
-                openedCards: [...gameState.openedCards],
-                kissCount: gameState.kissCount,
-                luckCount: gameState.luckCount,
-                songCount: gameState.songCount,
-                lastOpenTime: gameState.lastOpenTime
-            };
-            gameState.devMode = true;
-            // لا نحفظ في localStorage عشان لما يقفل يرجع كل حاجة
-            updateDevModeUI();
-            renderCards();
-            alert('✅ تم تفعيل وضع التطوير!\nتقدر تفتح أي كرت دلوقتي.');
-        } else if (password !== null) {
-            alert('❌ الباسورد غلط!');
-        }
-    } else {
-        // إلغاء وضع التطوير - إرجاع الحالة القديمة
-        if (savedStateBeforeDevMode) {
-            gameState.openedCards = savedStateBeforeDevMode.openedCards;
-            gameState.kissCount = savedStateBeforeDevMode.kissCount;
-            gameState.luckCount = savedStateBeforeDevMode.luckCount;
-            gameState.songCount = savedStateBeforeDevMode.songCount;
-            gameState.lastOpenTime = savedStateBeforeDevMode.lastOpenTime;
-            savedStateBeforeDevMode = null;
-        }
-        gameState.devMode = false;
-        saveGameState();
-        updateDevModeUI();
-        renderCards();
-        alert('🔒 تم إلغاء وضع التطوير.\nكل حاجة رجعت زي ما كانت!');
-    }
-}
-
-function updateDevModeUI() {
-    const devBtn = document.getElementById('devModeBtn');
-    const devControls = document.getElementById('devControls');
-
-    if (gameState.devMode) {
-        devBtn.style.display = 'none';
-        devControls.style.display = 'block';
-    } else {
-        devBtn.style.display = 'flex';
-        devControls.style.display = 'none';
-    }
-}
-
-// في وضع التطوير - السماح بفتح أي كرت
-function renderCardsDevMode() {
-    const grid = document.getElementById('cardsGrid');
-    grid.innerHTML = '';
-
-    gameState.shuffledCards.forEach((card, index) => {
-        const cardElement = document.createElement('div');
-        cardElement.className = 'card';
-        cardElement.dataset.index = index;
-
-        const isOpened = gameState.openedCards.includes(index);
-
-        if (isOpened) {
-            cardElement.classList.add('flipped');
-        } else {
-            // في وضع التطوير كل الكروت متاحة
-            cardElement.classList.add('available');
-        }
-
-        let cardType, cardIcon;
-        switch (card.type) {
-            case 'kiss':
-                cardType = 'kiss-card';
-                cardIcon = '💋';
-                break;
-            case 'luck':
-                cardType = 'luck-card';
-                cardIcon = '✈️';
-                break;
-            case 'song':
-                cardType = 'song-card';
-                cardIcon = '🎵';
-                break;
-            case 'toz':
-                cardType = 'toz-card';
-                cardIcon = '😜';
-                break;
-            case 'love':
-                cardType = 'love-card';
-                cardIcon = '❤️';
-                break;
-            case 'photo':
-                cardType = 'photo-card';
-                cardIcon = '📸';
-                break;
-            case 'motivational':
-                cardType = 'motivational-card';
-                cardIcon = '🕌';
-                break;
-        }
-
-        cardElement.innerHTML = `
-            <div class="card-inner">
-                <div class="card-front">
-                    <span class="card-icon">${!isOpened ? '✨' : '🎴'}</span>
-                    <span class="card-number">${index + 1}</span>
-                </div>
-                <div class="card-back ${cardType}">
-                    <span class="result-mini-icon">${cardIcon}</span>
-                </div>
-            </div>
-        `;
-
-        if (!isOpened) {
-            cardElement.addEventListener('click', () => openCardDevMode(index));
-        } else {
-            cardElement.addEventListener('click', () => showCardDetails(index));
-        }
-
-        grid.appendChild(cardElement);
-    });
-
-    updateStats();
-    updateProgress();
-
-    // إخفاء العداد في وضع التطوير
-    document.getElementById('timerSection').style.display = 'none';
-
-    // التحقق من اكتمال اللعبة
-    if (gameState.openedCards.length >= 188) {
-        showCompletionMessage();
-    }
-}
-
-function openCardDevMode(index) {
-    if (gameState.openedCards.includes(index)) return;
-
-    const card = gameState.shuffledCards[index];
-
-    // تحديث حالة اللعبة (بدون تحديث lastOpenTime)
-    gameState.openedCards.push(index);
-
-    if (card.type === 'kiss') {
-        gameState.kissCount++;
-    } else if (card.type === 'luck') {
-        gameState.luckCount++;
-    } else if (card.type === 'song') {
-        gameState.songCount++;
-    } else if (card.type === 'toz') {
-        gameState.tozCount++;
-    } else if (card.type === 'love') {
-        gameState.loveCount++;
-    } else if (card.type === 'photo') {
-        gameState.photoCount++;
-    } else if (card.type === 'motivational') {
-        gameState.motivationalCount++;
-    }
-
-    saveGameState();
-
-    // إضافة قلوب متطايرة
-    for (let i = 0; i < 10; i++) {
-        setTimeout(createFlyingHeart, i * 200);
-    }
-
-    // تحريك الكرت
-    const cardElement = document.querySelector(`.card[data-index="${index}"]`);
-    cardElement.classList.add('flipped');
-
-    // إظهار تفاصيل الكرت بعد الانيميشن
-    setTimeout(() => {
-        showCardDetails(index);
-        if (gameState.devMode) {
-            renderCardsDevMode();
-        } else {
-            renderCards();
-        }
-    }, 800);
-}
-
-// تعديل renderCards الأصلية للتحقق من وضع التطوير
-const originalRenderCards = renderCards;
-renderCards = function () {
-    if (gameState.devMode) {
-        renderCardsDevMode();
-    } else {
-        originalRenderCards();
-    }
-};
-
 // ============================================
 // 🎵 الموسيقى الخلفية
 // ============================================
