@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💖 كروت رورو اليومية</title>
+    <meta name="description" content="90 كرت حب مخصصة لرورو - افتحي كرت كل يوم واكتشفي رسالتك الخاصة">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Tajawal:wght@400;500;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- خلفية متحركة -->
+    <div class="animated-bg">
+        <div class="floating-heart">💖</div>
+        <div class="floating-heart">✨</div>
+        <div class="floating-heart">🌹</div>
+        <div class="floating-heart">💫</div>
+        <div class="floating-heart">💝</div>
+        <div class="floating-heart">🦋</div>
+        <div class="floating-heart">💕</div>
+        <div class="floating-heart">🌟</div>
+    </div>
+
+    <!-- القلوب المتطايرة -->
+    <div class="hearts-container" id="heartsContainer"></div>
+
+    <div class="container">
+        <!-- الهيدر المميز لرورو -->
+        <header class="header">
+            <div class="crown">👑</div>
+            <div class="logo">
+                <div class="roro-avatar">
+                    <span class="avatar-letter">ر</span>
+                </div>
+                <div class="logo-text">
+                    <h1>كروت <span class="roro-name">رورو</span> اليومية</h1>
+                    <div class="love-badge">💕 أنا بحبك أوي 💕</div>
+                </div>
+            </div>
+            <p class="tagline">
+                <span class="pray">صلي على النبي</span> 🤲
+                <br>
+                أنا جنبك ومعاكي على طول 💖
+            </p>
+            <div class="header-decoration">
+                <span>🌹</span><span>💋</span><span>🦋</span><span>💝</span><span>🌹</span>
+            </div>
+        </header>
+
+        <!-- عداد الوقت -->
+        <div class="timer-section" id="timerSection">
+            <div class="timer-card">
+                <div class="timer-icon">⏰</div>
+                <p class="timer-text">الكرت الجاي هيفتح بعد</p>
+                <div class="countdown" id="countdown">
+                    <div class="time-unit">
+                        <span id="hours">00</span>
+                        <label>ساعة</label>
+                    </div>
+                    <div class="time-separator">:</div>
+                    <div class="time-unit">
+                        <span id="minutes">00</span>
+                        <label>دقيقة</label>
+                    </div>
+                    <div class="time-separator">:</div>
+                    <div class="time-unit">
+                        <span id="seconds">00</span>
+                        <label>ثانية</label>
+                    </div>
+                </div>
+                <p class="wait-message">استني يا رورو 💕 كل يوم ليكي كرت جديد</p>
+            </div>
+        </div>
+
+        <!-- إحصائيات -->
+        <div class="stats-section">
+            <div class="stat-card kiss-stat">
+                <span class="stat-icon">💋</span>
+                <span class="stat-value" id="kissCount">0</span>
+                <span class="stat-label">بوسة</span>
+            </div>
+            <div class="stat-card luck-stat">
+                <span class="stat-icon">✈️</span>
+                <span class="stat-value" id="luckCount">0</span>
+                <span class="stat-label">خطط</span>
+            </div>
+            <div class="stat-card song-stat">
+                <span class="stat-icon">🎵</span>
+                <span class="stat-value" id="songCount">0</span>
+                <span class="stat-label">أغاني</span>
+            </div>
+            <div class="stat-card toz-stat">
+                <span class="stat-icon">😜</span>
+                <span class="stat-value" id="tozCount">0</span>
+                <span class="stat-label">طظ</span>
+            </div>
+            <div class="stat-card love-stat">
+                <span class="stat-icon">❤️</span>
+                <span class="stat-value" id="loveCount">0</span>
+                <span class="stat-label">بحبك</span>
+            </div>
+            <div class="stat-card photo-stat">
+                <span class="stat-icon">📸</span>
+                <span class="stat-value" id="photoCount">0</span>
+                <span class="stat-label">صور</span>
+            </div>
+            <div class="stat-card motivational-stat">
+                <span class="stat-icon">🕌</span>
+                <span class="stat-value" id="motivationalCount">0</span>
+                <span class="stat-label">تحفيز</span>
+            </div>
+            <div class="stat-card total-stat">
+                <span class="stat-icon">🎴</span>
+                <span class="stat-value" id="totalCards">188</span>
+                <span class="stat-label">متبقي</span>
+            </div>
+        </div>
+
+        <!-- 🔥 نظام الـ Streak -->
+        <div class="streak-section" id="streakSection">
+            <div class="streak-card">
+                <div class="streak-icon">🔥</div>
+                <div class="streak-info">
+                    <span class="streak-count" id="streakCount">0</span>
+                    <span class="streak-label">يوم متتالي</span>
+                </div>
+                <div class="streak-message" id="streakMessage">ابدأي سلسلتك يا رورو!</div>
+            </div>
+        </div>
+
+        <!-- 🎯 تحدي اليوم -->
+        <div class="challenge-section" id="challengeSection">
+            <div class="challenge-card">
+                <div class="challenge-header">
+                    <span class="challenge-icon">🎯</span>
+                    <span class="challenge-title">تحدي اليوم</span>
+                </div>
+                <p class="challenge-text" id="challengeText">جاري تحميل التحدي...</p>
+                <div class="challenge-actions">
+                    <button class="challenge-btn done-btn" id="challengeDoneBtn">✅ خلصته!</button>
+                    <button class="challenge-btn skip-btn" id="challengeSkipBtn">⏭️ تحدي تاني</button>
+                </div>
+                <div class="challenge-completed" id="challengeCompleted" style="display: none;">
+                    <span>🎉</span> برافو يا رورو! خلصتي تحدي اليوم! <span>💕</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- شريط التقدم -->
+        <div class="progress-section">
+            <div class="progress-info">
+                <span>تقدم رورو في اللعبة</span>
+                <span id="progressPercent">0%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+
+        <!-- الكروت -->
+        <div class="cards-grid" id="cardsGrid">
+            <!-- الكروت هتتضاف هنا بالجافاسكريبت -->
+        </div>
+
+        <!-- الكرت المفتوح (Modal) -->
+        <div class="modal" id="cardModal">
+            <div class="modal-content" id="modalContent">
+                <button class="close-modal" id="closeModal">&times;</button>
+                <div class="card-result">
+                    <div class="result-icon" id="resultIcon">💋</div>
+                    <h2 class="result-type" id="resultType">كرت بوسة</h2>
+                    <div class="for-roro">لرورو الحبيبة 💕</div>
+                    <div class="result-message" id="resultMessage">
+                        <!-- الرسالة هتظهر هنا -->
+                    </div>
+
+                    <!-- قسم الأغنية -->
+                    <div class="song-section" id="songSection" style="display: none;">
+                        <h3>🎵 أغنية ليكي يا رورو</h3>
+                        <a href="#" id="songLink" target="_blank" class="song-btn">
+                            <span class="song-btn-icon">▶️</span>
+                            <span class="song-btn-text">اسمعي الأغنية</span>
+                        </a>
+                    </div>
+
+                    <!-- قسم الصورة -->
+                    <div class="photo-section" id="photoSection" style="display: none;">
+                        <h3>📸 ذكرى من ذكرياتنا</h3>
+                        <div class="memory-photo-container">
+                            <img src="" alt="ذكرى حلوة" id="memoryPhoto" class="memory-photo">
+                        </div>
+                    </div>
+
+                    <!-- قسم اللغز -->
+                    <div class="riddle-section" id="riddleSection">
+                        <h3>🧩 لغز اليوم</h3>
+                        <p class="riddle-text" id="riddleText"></p>
+                        <div class="riddle-answer-section">
+                            <input type="text" id="riddleInput" placeholder="اكتبي الإجابة يا رورو...">
+                            <button class="answer-btn" id="answerBtn">تأكيد</button>
+                        </div>
+                        <p class="riddle-result" id="riddleResult"></p>
+                        <button class="show-answer-btn" id="showAnswerBtn">عرض الإجابة</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- رسالة اكتمال اللعبة -->
+        <div class="completion-message" id="completionMessage">
+            <div class="completion-card">
+                <div class="completion-confetti"></div>
+                <div class="completion-icon">🎉</div>
+                <h2>مبروك يا رورو!</h2>
+                <p>خلصتي كل الـ 188 كرت 💕</p>
+                <p class="love-message">أنا بحبك أوي يا رورو وهفضل جنبك على طول ❤️</p>
+                <div class="final-stats">
+                    <div class="final-stat">
+                        <span class="stat-icon">💋</span>
+                        <span id="finalKiss">0</span>
+                    </div>
+                    <div class="final-stat">
+                        <span class="stat-icon">✈️</span>
+                        <span id="finalLuck">0</span>
+                    </div>
+                    <div class="final-stat">
+                        <span class="stat-icon">🎵</span>
+                        <span id="finalSong">0</span>
+                    </div>
+                    <div class="final-stat">
+                        <span class="stat-icon">😜</span>
+                        <span id="finalToz">0</span>
+                    </div>
+                    <div class="final-stat">
+                        <span class="stat-icon">❤️</span>
+                        <span id="finalLove">0</span>
+                    </div>
+                    <div class="final-stat">
+                        <span class="stat-icon">📸</span>
+                        <span id="finalPhoto">0</span>
+                    </div>
+                    <div class="final-stat">
+                        <span class="stat-icon">🕌</span>
+                        <span id="finalMotivational">0</span>
+                    </div>
+                </div>
+                <button class="reset-btn" id="resetBtn">ابدأي من الأول 🔄</button>
+            </div>
+        </div>
+
+        <!-- فوتر -->
+        <footer class="footer">
+            <p>💖 معمولة بكل الحب لـ <span class="roro-name">رورو</span> 💖</p>
+            <p class="footer-small">صلي على النبي 🤲</p>
+        </footer>
+    </div>
+
+    <!-- أزرار ثابتة -->
+    <div class="floating-buttons">
+        <!-- زر الموسيقى -->
+        <button class="floating-btn music-btn" id="musicBtn" title="تشغيل/إيقاف الموسيقى">
+            <span class="btn-icon">🎵</span>
+        </button>
+        <!-- زر تقويم الذكريات -->
+        <button class="floating-btn calendar-btn" id="calendarBtn" title="تقويم الذكريات">
+            <span class="btn-icon">📅</span>
+        </button>
+    </div>
+
+    <!-- موسيقى خلفية -->
+    <audio id="bgMusic" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Modal تقويم الذكريات -->
+    <div class="modal" id="calendarModal">
+        <div class="modal-content calendar-modal-content">
+            <button class="close-modal" id="closeCalendarModal">&times;</button>
+            <div class="calendar-header">
+                <h2>📅 تقويم ذكرياتنا</h2>
+                <p>كل الكروت اللي فتحتيها يا رورو 💕</p>
+            </div>
+            <div class="calendar-stats">
+                <div class="calendar-stat">
+                    <span class="calendar-stat-value" id="openedCount">0</span>
+                    <span class="calendar-stat-label">كرت مفتوح</span>
+                </div>
+                <div class="calendar-stat">
+                    <span class="calendar-stat-value" id="remainingCount">188</span>
+                    <span class="calendar-stat-label">كرت متبقي</span>
+                </div>
+            </div>
+            <div class="memories-list" id="memoriesList">
+                <!-- الذكريات هتتضاف هنا بالجافاسكريبت -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal عيد ميلاد رورو 🎂 -->
+    <div class="modal birthday-modal" id="birthdayModal">
+        <div class="modal-content birthday-modal-content">
+            <div class="birthday-decorations">
+                <span>🎈</span><span>🎉</span><span>🎂</span><span>🎁</span><span>🎈</span>
+            </div>
+            <div class="birthday-crown">👑</div>
+            <h1 class="birthday-title">🎂 كل سنة وانتي طيبة يا رورو! 🎂</h1>
+            <div class="birthday-cake">🎂</div>
+            <div class="birthday-message" id="birthdayMessage">
+                <!-- رسالة عيد الميلاد هتتحط هنا -->
+            </div>
+            <div class="birthday-hearts">
+                <span>💖</span><span>💕</span><span>❤️</span><span>💗</span><span>💝</span>
+            </div>
+            <button class="birthday-close-btn" id="closeBirthdayModal">شكراً يا حبيبي 💕</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
