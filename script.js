@@ -1320,7 +1320,74 @@ document.addEventListener('DOMContentLoaded', () => {
     // أزرار التحدي
     document.getElementById('challengeDoneBtn').addEventListener('click', completeChallenge);
     document.getElementById('challengeSkipBtn').addEventListener('click', skipChallenge);
+
+    // أزرار الملاحظات
+    const notesBtn = document.getElementById('notesBtn');
+    const closeNotesModal = document.getElementById('closeNotesModal');
+    const saveNotesBtn = document.getElementById('saveNotesBtn');
+    const clearNotesBtn = document.getElementById('clearNotesBtn');
+    const notesModal = document.getElementById('notesModal');
+
+    if (notesBtn) notesBtn.addEventListener('click', openNotes);
+    if (closeNotesModal) closeNotesModal.addEventListener('click', closeNotes);
+    if (saveNotesBtn) saveNotesBtn.addEventListener('click', saveNotes);
+    if (clearNotesBtn) clearNotesBtn.addEventListener('click', clearNotes);
+    if (notesModal) {
+        notesModal.addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) closeNotes();
+        });
+    }
 });
+
+// ============================================
+// 📝 نظام الملاحظات
+// ============================================
+
+const NOTES_KEY = 'roroNotes';
+
+function openNotes() {
+    const modal = document.getElementById('notesModal');
+    const textarea = document.getElementById('notesTextarea');
+
+    // تحميل الملاحظات المحفوظة
+    const savedNotes = localStorage.getItem(NOTES_KEY);
+    if (savedNotes) {
+        textarea.value = savedNotes;
+    }
+
+    modal.classList.add('active');
+    textarea.focus();
+}
+
+function closeNotes() {
+    document.getElementById('notesModal').classList.remove('active');
+}
+
+function saveNotes() {
+    const textarea = document.getElementById('notesTextarea');
+    const savedMsg = document.getElementById('notesSavedMsg');
+
+    localStorage.setItem(NOTES_KEY, textarea.value);
+
+    // إظهار رسالة الحفظ
+    savedMsg.style.display = 'block';
+    setTimeout(() => {
+        savedMsg.style.display = 'none';
+    }, 2000);
+
+    // إضافة قلوب
+    for (let i = 0; i < 5; i++) {
+        setTimeout(createFlyingHeart, i * 100);
+    }
+}
+
+function clearNotes() {
+    if (confirm('متأكدة يا رورو إنك عايزة تمسحي كل الملاحظات؟ 💕')) {
+        const textarea = document.getElementById('notesTextarea');
+        textarea.value = '';
+        localStorage.removeItem(NOTES_KEY);
+    }
+}
 
 // ============================================
 // 🔥 نظام الـ Streak

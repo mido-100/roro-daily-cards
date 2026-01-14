@@ -269,6 +269,29 @@
         <button class="floating-btn calendar-btn" id="calendarBtn" title="تقويم الذكريات">
             <span class="btn-icon">📅</span>
         </button>
+        <!-- زر الملاحظات -->
+        <button class="floating-btn notes-btn" id="notesBtn" title="ملاحظاتي">
+            <span class="btn-icon">📝</span>
+        </button>
+    </div>
+
+    <!-- Modal الملاحظات -->
+    <div class="modal" id="notesModal">
+        <div class="modal-content notes-modal-content">
+            <button class="close-modal" id="closeNotesModal">&times;</button>
+            <div class="notes-header">
+                <h2>📝 ملاحظاتي</h2>
+                <p>اكتبي أي حاجة هنا يا رورو 💕</p>
+            </div>
+            <div class="notes-container">
+                <textarea id="notesTextarea" placeholder="اكتبي ملاحظاتك هنا... 💭"></textarea>
+            </div>
+            <div class="notes-actions">
+                <button class="notes-save-btn" id="saveNotesBtn">💾 حفظ</button>
+                <button class="notes-clear-btn" id="clearNotesBtn">🗑️ مسح الكل</button>
+            </div>
+            <p class="notes-saved-msg" id="notesSavedMsg" style="display: none;">✅ تم الحفظ!</p>
+        </div>
     </div>
 
     <!-- موسيقى خلفية -->

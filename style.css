@@ -2257,3 +2257,152 @@ body::before {
         font-size: 0.9rem;
     }
 }
+
+/* ============================================
+   📝 نظام الملاحظات
+   ============================================ */
+
+.notes-btn {
+    background: linear-gradient(135deg, #a55eea 0%, #8854d0 100%);
+}
+
+.notes-btn:hover {
+    box-shadow: 0 0 30px rgba(165, 94, 234, 1), 0 0 60px rgba(165, 94, 234, 0.6);
+}
+
+.notes-modal-content {
+    max-width: 600px;
+    max-height: 85vh;
+}
+
+.notes-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.notes-header h2 {
+    font-size: 1.8rem;
+    background: linear-gradient(135deg, #a55eea 0%, #8854d0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+}
+
+.notes-header p {
+    color: #7f8c8d;
+    font-size: 1rem;
+}
+
+.notes-container {
+    margin-bottom: 1.5rem;
+}
+
+#notesTextarea {
+    width: 100%;
+    min-height: 250px;
+    padding: 1.2rem;
+    border: 2px solid #e9ecef;
+    border-radius: 15px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    resize: vertical;
+    transition: var(--transition-smooth);
+    direction: rtl;
+    background: linear-gradient(135deg, #f8f9fa, #fff);
+}
+
+#notesTextarea:focus {
+    outline: none;
+    border-color: #a55eea;
+    box-shadow: 0 0 20px rgba(165, 94, 234, 0.2);
+}
+
+#notesTextarea::placeholder {
+    color: #adb5bd;
+}
+
+.notes-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+}
+
+.notes-save-btn,
+.notes-clear-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 50px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.notes-save-btn {
+    background: linear-gradient(135deg, #a55eea 0%, #8854d0 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(165, 94, 234, 0.4);
+}
+
+.notes-save-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 25px rgba(165, 94, 234, 0.5);
+}
+
+.notes-clear-btn {
+    background: rgba(255, 71, 87, 0.1);
+    color: var(--roro-primary);
+    border: 2px solid var(--roro-primary);
+}
+
+.notes-clear-btn:hover {
+    background: var(--roro-primary);
+    color: white;
+    transform: scale(1.05);
+}
+
+.notes-saved-msg {
+    text-align: center;
+    color: #2ed573;
+    font-weight: 700;
+    font-size: 1.1rem;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive للملاحظات */
+@media (max-width: 768px) {
+    .notes-modal-content {
+        padding: 1.5rem;
+    }
+
+    #notesTextarea {
+        min-height: 200px;
+        font-size: 1rem;
+    }
+
+    .notes-save-btn,
+    .notes-clear-btn {
+        padding: 0.7rem 1.2rem;
+        font-size: 0.9rem;
+    }
+}
