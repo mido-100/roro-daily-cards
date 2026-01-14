@@ -387,21 +387,65 @@ let gameState = {
 function loadGameState() {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) {
-        gameState = JSON.parse(saved);
+        const parsedState = JSON.parse(saved);
+
         // التحقق من وجود الكروت الجديدة (190 كرت)
-        // لو عدد الكروت أقل، نعمل reset
-        if (!gameState.shuffledCards || gameState.shuffledCards.length < 190 ||
-            !gameState.hasOwnProperty('tozCount') ||
-            !gameState.hasOwnProperty('loveCount') ||
-            !gameState.hasOwnProperty('photoCount') ||
-            !gameState.hasOwnProperty('motivationalCount') ||
-            !gameState.hasOwnProperty('voiceCount')) {
+        // لو عدد الكروت أقل، نعمل تحديث مع الحفاظ على الكروت المفتوحة
+        if (!parsedState.shuffledCards || parsedState.shuffledCards.length < 190 ||
+            !parsedState.hasOwnProperty('tozCount') ||
+            !parsedState.hasOwnProperty('loveCount') ||
+            !parsedState.hasOwnProperty('photoCount') ||
+            !parsedState.hasOwnProperty('motivationalCount') ||
+            !parsedState.hasOwnProperty('voiceCount')) {
             console.log('تحديث الكروت للنسخة الجديدة...');
+            // حفظ الحالة القديمة
+            const oldOpenedCards = parsedState.openedCards || [];
+            const oldLastOpenTime = parsedState.lastOpenTime;
+
+            // تهيئة اللعبة الجديدة
             initializeGame();
+
+            // استعادة الكروت المفتوحة (لو كانت أقل من العدد الجديد)
+            if (oldOpenedCards.length > 0 && oldOpenedCards.length < 190) {
+                gameState.openedCards = oldOpenedCards;
+                gameState.lastOpenTime = oldLastOpenTime;
+                // إعادة حساب العدادات
+                recalculateCounts();
+                saveGameState();
+            }
+        } else {
+            gameState = parsedState;
         }
     } else {
         initializeGame();
     }
+}
+
+function recalculateCounts() {
+    // إعادة ضبط العدادات
+    gameState.kissCount = 0;
+    gameState.luckCount = 0;
+    gameState.songCount = 0;
+    gameState.tozCount = 0;
+    gameState.loveCount = 0;
+    gameState.photoCount = 0;
+    gameState.motivationalCount = 0;
+    gameState.voiceCount = 0;
+
+    // إعادة حساب بناءً على الكروت المفتوحة
+    gameState.openedCards.forEach(index => {
+        if (index < gameState.shuffledCards.length) {
+            const card = gameState.shuffledCards[index];
+            if (card.type === 'kiss') gameState.kissCount++;
+            else if (card.type === 'luck') gameState.luckCount++;
+            else if (card.type === 'song') gameState.songCount++;
+            else if (card.type === 'toz') gameState.tozCount++;
+            else if (card.type === 'love') gameState.loveCount++;
+            else if (card.type === 'photo') gameState.photoCount++;
+            else if (card.type === 'motivational') gameState.motivationalCount++;
+            else if (card.type === 'voice') gameState.voiceCount++;
+        }
+    });
 }
 
 function saveGameState() {
