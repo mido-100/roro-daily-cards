@@ -1570,6 +1570,32 @@ body::before {
     box-shadow: 0 0 30px rgba(255, 165, 2, 1), 0 0 60px rgba(255, 165, 2, 0.6);
 }
 
+/* زر وضع المطور */
+.dev-btn {
+    background: linear-gradient(135deg, #2f3542 0%, #57606f 100%);
+}
+
+.dev-btn:hover {
+    box-shadow: 0 0 30px rgba(47, 53, 66, 1), 0 0 60px rgba(47, 53, 66, 0.6);
+}
+
+.dev-btn.active {
+    background: linear-gradient(135deg, #2ed573 0%, #26de81 100%);
+    animation: devPulse 1s ease-in-out infinite;
+}
+
+@keyframes devPulse {
+
+    0%,
+    100% {
+        box-shadow: 0 0 20px rgba(46, 213, 115, 0.5);
+    }
+
+    50% {
+        box-shadow: 0 0 40px rgba(46, 213, 115, 1);
+    }
+}
+
 /* ============================================
    📅 تقويم الذكريات
    ============================================ */

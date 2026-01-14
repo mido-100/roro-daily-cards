@@ -865,6 +865,116 @@ function resetGame() {
 }
 
 // ============================================
+// 🔓 وضع المطور
+// ============================================
+
+let devModeActive = false;
+
+function toggleDevMode() {
+    devModeActive = !devModeActive;
+    const devBtn = document.getElementById('devModeBtn');
+
+    if (devModeActive) {
+        devBtn.classList.add('active');
+        devBtn.querySelector('.btn-icon').textContent = '🔐';
+        alert('⚠️ وضع المطور مفعّل!\nتقدر تفتح أي كرت دلوقتي');
+        renderCardsDevMode();
+    } else {
+        devBtn.classList.remove('active');
+        devBtn.querySelector('.btn-icon').textContent = '🔓';
+        renderCards();
+    }
+}
+
+function renderCardsDevMode() {
+    const grid = document.getElementById('cardsGrid');
+    grid.innerHTML = '';
+
+    gameState.shuffledCards.forEach((card, index) => {
+        const cardElement = document.createElement('div');
+        cardElement.className = 'card dev-mode-card';
+        cardElement.dataset.index = index;
+
+        const isOpened = gameState.openedCards.includes(index);
+
+        if (isOpened) {
+            cardElement.classList.add('flipped');
+        }
+
+        let cardType, cardIcon;
+        switch (card.type) {
+            case 'kiss': cardType = 'kiss-card'; cardIcon = '💋'; break;
+            case 'luck': cardType = 'luck-card'; cardIcon = '✈️'; break;
+            case 'song': cardType = 'song-card'; cardIcon = '🎵'; break;
+            case 'toz': cardType = 'toz-card'; cardIcon = '😜'; break;
+            case 'love': cardType = 'love-card'; cardIcon = '❤️'; break;
+            case 'photo': cardType = 'photo-card'; cardIcon = '📸'; break;
+            case 'motivational': cardType = 'motivational-card'; cardIcon = '🕌'; break;
+            case 'voice': cardType = 'voice-card'; cardIcon = '🎤'; break;
+        }
+
+        cardElement.innerHTML = `
+            <div class="card-inner">
+                <div class="card-front dev-available">
+                    <span class="card-icon">🔓</span>
+                    <span class="card-number">${index + 1}</span>
+                </div>
+                <div class="card-back ${cardType}">
+                    <span class="result-mini-icon">${cardIcon}</span>
+                </div>
+            </div>
+        `;
+
+        if (!isOpened) {
+            cardElement.addEventListener('click', () => openCardDevMode(index));
+        } else {
+            cardElement.addEventListener('click', () => showCardDetails(index));
+        }
+
+        grid.appendChild(cardElement);
+    });
+
+    updateStats();
+    updateProgress();
+}
+
+function openCardDevMode(index) {
+    if (gameState.openedCards.includes(index)) return;
+
+    const card = gameState.shuffledCards[index];
+
+    // تحديث حالة اللعبة
+    gameState.openedCards.push(index);
+    gameState.lastOpenTime = new Date().toISOString();
+
+    if (card.type === 'kiss') gameState.kissCount++;
+    else if (card.type === 'luck') gameState.luckCount++;
+    else if (card.type === 'song') gameState.songCount++;
+    else if (card.type === 'toz') gameState.tozCount++;
+    else if (card.type === 'love') gameState.loveCount++;
+    else if (card.type === 'photo') gameState.photoCount++;
+    else if (card.type === 'motivational') gameState.motivationalCount++;
+    else if (card.type === 'voice') gameState.voiceCount++;
+
+    saveGameState();
+
+    // قلوب متطايرة
+    for (let i = 0; i < 5; i++) {
+        setTimeout(createFlyingHeart, i * 100);
+    }
+
+    // تحريك الكرت
+    const cardElement = document.querySelector(`.card[data-index="${index}"]`);
+    cardElement.classList.add('flipped');
+
+    // إظهار تفاصيل الكرت
+    setTimeout(() => {
+        showCardDetails(index);
+        renderCardsDevMode();
+    }, 500);
+}
+
+// ============================================
 // تهيئة الأحداث
 // ============================================
 
