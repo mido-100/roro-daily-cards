@@ -882,8 +882,11 @@ function toggleDevMode() {
             devModeActive = true;
             devBtn.classList.add('active');
             devBtn.querySelector('.btn-icon').textContent = '🔐';
-            alert('✅ وضع المطور مفعّل!\nتقدر تفتح أي كرت دلوقتي');
-            renderCardsDevMode();
+
+            // فتح كل الكروت مرة واحدة
+            openAllCards();
+
+            alert('✅ تم فتح كل الكروت!\n🎉 كل الكروت اتفتحت مرة واحدة');
         } else if (password !== null) {
             alert('❌ كلمة السر غلط!');
         }
@@ -893,6 +896,43 @@ function toggleDevMode() {
         devBtn.classList.remove('active');
         devBtn.querySelector('.btn-icon').textContent = '🔓';
         renderCards();
+    }
+}
+
+function openAllCards() {
+    // فتح كل الكروت اللي مش مفتوحة
+    gameState.shuffledCards.forEach((card, index) => {
+        if (!gameState.openedCards.includes(index)) {
+            gameState.openedCards.push(index);
+
+            // تحديث العدادات
+            if (card.type === 'kiss') gameState.kissCount++;
+            else if (card.type === 'luck') gameState.luckCount++;
+            else if (card.type === 'song') gameState.songCount++;
+            else if (card.type === 'toz') gameState.tozCount++;
+            else if (card.type === 'love') gameState.loveCount++;
+            else if (card.type === 'photo') gameState.photoCount++;
+            else if (card.type === 'motivational') gameState.motivationalCount++;
+            else if (card.type === 'voice') gameState.voiceCount++;
+        }
+    });
+
+    gameState.lastOpenTime = new Date().toISOString();
+    saveGameState();
+
+    // تحديث العرض
+    renderCards();
+    updateStats();
+    updateProgress();
+
+    // قلوب كتير للاحتفال
+    for (let i = 0; i < 20; i++) {
+        setTimeout(createFlyingHeart, i * 100);
+    }
+
+    // التحقق من اكتمال اللعبة
+    if (gameState.openedCards.length >= 190) {
+        setTimeout(showCompletionMessage, 1000);
     }
 }
 
