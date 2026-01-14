@@ -287,6 +287,33 @@
         <button class="floating-btn dev-btn" id="devModeBtn" title="وضع المطور">
             <span class="btn-icon">🔓</span>
         </button>
+        <!-- زر الشات -->
+        <button class="floating-btn chat-btn" id="chatBtn" title="اتكلمي معايا">
+            <span class="btn-icon">💬</span>
+        </button>
+    </div>
+
+    <!-- Modal الشات -->
+    <div class="modal" id="chatModal">
+        <div class="modal-content chat-modal-content">
+            <button class="close-modal" id="closeChatModal">&times;</button>
+            <div class="chat-header">
+                <div class="chat-avatar">💕</div>
+                <div class="chat-info">
+                    <h2>حبيبك 💖</h2>
+                    <span class="chat-status">متاح دايماً ليكي يا رورو</span>
+                </div>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                <div class="chat-message bot-message">
+                    <span class="message-content">أهلاً يا رورو الحلوة! 💕 اتكلمي معايا في أي حاجة</span>
+                </div>
+            </div>
+            <div class="chat-input-container">
+                <input type="text" id="chatInput" placeholder="اكتبي رسالتك هنا..." autocomplete="off">
+                <button class="chat-send-btn" id="chatSendBtn">إرسال 💌</button>
+            </div>
+        </div>
     </div>
 
     <!-- Modal الملاحظات -->
