@@ -835,35 +835,49 @@ function resetGame() {
 document.addEventListener('DOMContentLoaded', () => {
     loadGameState();
     renderCards();
-    updateDevModeUI();
+    updateStats();
+    updateProgress();
 
     // تحديث العداد كل ثانية
     setInterval(updateCountdown, 1000);
     updateCountdown();
 
-    // أحداث الأزرار
-    document.getElementById('closeModal').addEventListener('click', closeModal);
-    document.getElementById('answerBtn').addEventListener('click', checkRiddleAnswer);
-    document.getElementById('showAnswerBtn').addEventListener('click', showAnswer);
-    document.getElementById('resetBtn').addEventListener('click', resetGame);
+    // أحداث الأزرار - مع التحقق من وجودها
+    const closeModalBtn = document.getElementById('closeModal');
+    const answerBtn = document.getElementById('answerBtn');
+    const showAnswerBtn = document.getElementById('showAnswerBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const cardModal = document.getElementById('cardModal');
+    const riddleInput = document.getElementById('riddleInput');
 
-    // أحداث وضع التطوير
-    document.getElementById('devModeBtn').addEventListener('click', toggleDevMode);
-    document.getElementById('devCloseBtn').addEventListener('click', toggleDevMode);
+    if (closeModalBtn) closeModalBtn.addEventListener('click', closeModal);
+    if (answerBtn) answerBtn.addEventListener('click', checkRiddleAnswer);
+    if (showAnswerBtn) showAnswerBtn.addEventListener('click', showAnswer);
+    if (resetBtn) resetBtn.addEventListener('click', resetGame);
+
+    // أحداث وضع التطوير (لو موجودين)
+    const devModeBtn = document.getElementById('devModeBtn');
+    const devCloseBtn = document.getElementById('devCloseBtn');
+    if (devModeBtn) devModeBtn.addEventListener('click', toggleDevMode);
+    if (devCloseBtn) devCloseBtn.addEventListener('click', toggleDevMode);
 
     // إغلاق المودال بالضغط خارجه
-    document.getElementById('cardModal').addEventListener('click', (e) => {
-        if (e.target === e.currentTarget) {
-            closeModal();
-        }
-    });
+    if (cardModal) {
+        cardModal.addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) {
+                closeModal();
+            }
+        });
+    }
 
     // إرسال الإجابة بالضغط على Enter
-    document.getElementById('riddleInput').addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-            checkRiddleAnswer();
-        }
-    });
+    if (riddleInput) {
+        riddleInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                checkRiddleAnswer();
+            }
+        });
+    }
 
     // إضافة قلوب عشوائية كل فترة
     setInterval(() => {
@@ -871,6 +885,19 @@ document.addEventListener('DOMContentLoaded', () => {
             createFlyingHeart();
         }
     }, 3000);
+
+    // تحديث عرض قسم التايمر
+    setInterval(() => {
+        const canOpen = canOpenNewCard();
+        const timerSection = document.getElementById('timerSection');
+        if (timerSection) {
+            if (!canOpen && gameState.openedCards.length < 188) {
+                timerSection.style.display = 'block';
+            } else {
+                timerSection.style.display = 'none';
+            }
+        }
+    }, 1000);
 });
 
 // التحقق من الوقت كل دقيقة
