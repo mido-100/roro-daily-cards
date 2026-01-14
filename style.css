@@ -2406,3 +2406,58 @@ body::before {
         font-size: 0.9rem;
     }
 }
+
+/* ============================================
+   🎤 قسم الرسائل الصوتية
+   ============================================ */
+
+.voice-section {
+    text-align: center;
+    margin: 1.5rem 0;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, rgba(165, 94, 234, 0.1), rgba(136, 84, 208, 0.1));
+    border-radius: 15px;
+    border: 2px solid rgba(165, 94, 234, 0.3);
+}
+
+.voice-section h3 {
+    color: #8854d0;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+}
+
+.voice-player-container {
+    display: flex;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.voice-player {
+    width: 100%;
+    max-width: 350px;
+    border-radius: 50px;
+}
+
+.voice-player::-webkit-media-controls-panel {
+    background: linear-gradient(135deg, #a55eea, #8854d0);
+}
+
+.voice-modal {
+    border-top: 4px solid #a55eea !important;
+}
+
+.voice-modal .result-icon {
+    animation: voicePulse 1.5s ease-in-out infinite;
+}
+
+@keyframes voicePulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+}

@@ -340,6 +340,24 @@ const motivationalCards = [
 ];
 
 // ============================================
+// كروت الرسائل الصوتية - 2 كرت 🎤
+// ============================================
+const voiceCards = [
+    {
+        message: "رسالة صوتية خاصة ليكي يا رورو 💕🎤\nاسمعيها واحسي بحبي!",
+        voice: "sounds/voice1.ogg",
+        riddle: "ايه أحلى صوت في الدنيا؟",
+        answer: "صوتك"
+    },
+    {
+        message: "كلام من القلب مخصوص ليكي 💖🎤\nده صوتي وانا بفكر فيكي!",
+        voice: "sounds/voice2.ogg",
+        riddle: "ايه اللي بيوصل من غير كلام؟",
+        answer: "الحب"
+    }
+];
+
+// ============================================
 // متغيرات التخزين
 // ============================================
 
@@ -356,6 +374,7 @@ let gameState = {
     loveCount: 0,
     photoCount: 0,
     motivationalCount: 0,
+    voiceCount: 0, // كروت الرسائل الصوتية
     shuffledCards: [],
     currentCardIndex: null,
     devMode: false
@@ -369,13 +388,14 @@ function loadGameState() {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) {
         gameState = JSON.parse(saved);
-        // التحقق من وجود الكروت الجديدة (185 كرت)
+        // التحقق من وجود الكروت الجديدة (190 كرت)
         // لو عدد الكروت أقل، نعمل reset
-        if (!gameState.shuffledCards || gameState.shuffledCards.length < 188 ||
+        if (!gameState.shuffledCards || gameState.shuffledCards.length < 190 ||
             !gameState.hasOwnProperty('tozCount') ||
             !gameState.hasOwnProperty('loveCount') ||
             !gameState.hasOwnProperty('photoCount') ||
-            !gameState.hasOwnProperty('motivationalCount')) {
+            !gameState.hasOwnProperty('motivationalCount') ||
+            !gameState.hasOwnProperty('voiceCount')) {
             console.log('تحديث الكروت للنسخة الجديدة...');
             initializeGame();
         }
@@ -424,6 +444,11 @@ function initializeGame() {
     // إضافة كروت التحفيز والصلاة
     motivationalCards.forEach((card, index) => {
         allCards.push({ type: 'motivational', index, ...card });
+    });
+
+    // إضافة كروت الرسائل الصوتية
+    voiceCards.forEach((card, index) => {
+        allCards.push({ type: 'voice', index, ...card });
     });
 
     // خلط الكروت بطريقة عشوائية جداً (5 مرات)
@@ -580,6 +605,10 @@ function renderCards() {
                 cardType = 'motivational-card';
                 cardIcon = '🕌';
                 break;
+            case 'voice':
+                cardType = 'voice-card';
+                cardIcon = '🎤';
+                break;
         }
 
         cardElement.innerHTML = `
@@ -661,6 +690,8 @@ function openCard(index) {
         gameState.photoCount++;
     } else if (card.type === 'motivational') {
         gameState.motivationalCount++;
+    } else if (card.type === 'voice') {
+        gameState.voiceCount++;
     }
 
     saveGameState();
@@ -698,19 +729,21 @@ function showCardDetails(index) {
 
     // تحديث المحتوى
     const photoSection = document.getElementById('photoSection');
+    let voiceSection = document.getElementById('voiceSection');
+
+    // إخفاء كل الأقسام الخاصة أولاً
+    songSection.style.display = 'none';
+    photoSection.style.display = 'none';
+    if (voiceSection) voiceSection.style.display = 'none';
 
     if (card.type === 'kiss') {
         modalContent.className = 'modal-content kiss-modal';
         resultIcon.textContent = '💋';
         resultType.textContent = 'كرت بوسة';
-        songSection.style.display = 'none';
-        photoSection.style.display = 'none';
     } else if (card.type === 'luck') {
         modalContent.className = 'modal-content luck-modal';
         resultIcon.textContent = '✈️';
         resultType.textContent = 'خطط مستقبلية';
-        songSection.style.display = 'none';
-        photoSection.style.display = 'none';
     } else if (card.type === 'song') {
         modalContent.className = 'modal-content song-modal';
         resultIcon.textContent = '🎵';
@@ -718,32 +751,35 @@ function showCardDetails(index) {
         songSection.style.display = 'block';
         songLink.href = card.songLink;
         songSection.querySelector('h3').textContent = '🎵 ' + card.songName;
-        photoSection.style.display = 'none';
     } else if (card.type === 'toz') {
         modalContent.className = 'modal-content toz-modal';
         resultIcon.textContent = '😜';
         resultType.textContent = 'طظ فيكي';
-        songSection.style.display = 'none';
-        photoSection.style.display = 'none';
     } else if (card.type === 'love') {
         modalContent.className = 'modal-content love-modal';
         resultIcon.textContent = '❤️';
         resultType.textContent = 'بحبك أوي';
-        songSection.style.display = 'none';
-        photoSection.style.display = 'none';
     } else if (card.type === 'photo') {
         modalContent.className = 'modal-content photo-modal';
         resultIcon.textContent = '📸';
         resultType.textContent = 'ذكرى حلوة';
-        songSection.style.display = 'none';
         photoSection.style.display = 'block';
         document.getElementById('memoryPhoto').src = card.image;
     } else if (card.type === 'motivational') {
         modalContent.className = 'modal-content motivational-modal';
         resultIcon.textContent = '🕌';
         resultType.textContent = 'تحفيز وتذكير';
-        songSection.style.display = 'none';
-        photoSection.style.display = 'none';
+    } else if (card.type === 'voice') {
+        modalContent.className = 'modal-content voice-modal';
+        resultIcon.textContent = '🎤';
+        resultType.textContent = 'رسالة صوتية';
+        if (voiceSection) {
+            voiceSection.style.display = 'block';
+            const voicePlayer = document.getElementById('voicePlayer');
+            if (voicePlayer) {
+                voicePlayer.src = card.voice;
+            }
+        }
     }
 
     resultMessage.textContent = card.message;
