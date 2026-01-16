@@ -291,6 +291,10 @@
         <button class="floating-btn chat-btn" id="chatBtn" title="اتكلمي معايا">
             <span class="btn-icon">💬</span>
         </button>
+        <!-- زر التنبؤ -->
+        <button class="floating-btn prediction-btn" id="predictionBtn" title="توقعات اليوم">
+            <span class="btn-icon">🔮</span>
+        </button>
     </div>
 
     <!-- Modal الشات -->
@@ -380,6 +384,50 @@
                 <span>💖</span><span>💕</span><span>❤️</span><span>💗</span><span>💝</span>
             </div>
             <button class="birthday-close-btn" id="closeBirthdayModal">شكراً يا حبيبي 💕</button>
+        </div>
+    </div>
+
+    <!-- Modal التنبؤ 🔮 -->
+    <div class="modal" id="predictionModal">
+        <div class="modal-content prediction-modal-content">
+            <button class="close-modal" id="closePredictionModal">&times;</button>
+            <div class="prediction-header">
+                <div class="crystal-ball">🔮</div>
+                <h2>توقعات اليوم لرورو ✨</h2>
+                <p>الكرة البلورية شايفة حاجات حلوة ليكي 💕</p>
+            </div>
+            <div class="prediction-content">
+                <div class="prediction-card love-prediction">
+                    <span class="prediction-icon">💕</span>
+                    <h3>الحب</h3>
+                    <p id="lovePrediction">جاري التنبؤ...</p>
+                </div>
+                <div class="prediction-card mood-prediction">
+                    <span class="prediction-icon">😊</span>
+                    <h3>المزاج</h3>
+                    <p id="moodPrediction">جاري التنبؤ...</p>
+                </div>
+                <div class="prediction-card luck-prediction">
+                    <span class="prediction-icon">🍀</span>
+                    <h3>الحظ</h3>
+                    <p id="luckPrediction">جاري التنبؤ...</p>
+                </div>
+                <div class="prediction-card advice-prediction">
+                    <span class="prediction-icon">💡</span>
+                    <h3>نصيحة اليوم</h3>
+                    <p id="advicePrediction">جاري التنبؤ...</p>
+                </div>
+                <div class="prediction-card quran-prediction">
+                    <span class="prediction-icon">📖</span>
+                    <h3>الآية القرآنية اليومية</h3>
+                    <p id="quranVerse" class="quran-verse-text">جاري التحميل...</p>
+                    <span id="quranSurah" class="quran-surah-name"></span>
+                </div>
+            </div>
+            <div class="prediction-footer">
+                <p class="prediction-note">💖 كل التوقعات دي عشانك يا رورو 💖</p>
+                <button class="new-prediction-btn" id="newPredictionBtn">🔮 توقع جديد</button>
+            </div>
         </div>
     </div>
 
