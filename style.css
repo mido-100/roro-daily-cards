@@ -2659,8 +2659,66 @@ body::before {
 }
 
 /* ============================================
-   🔮 نظام التنبؤات
+   🎯 الأزرار العائمة
    ============================================ */
+
+.floating-buttons {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 1000;
+}
+
+.floating-btn {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    background: linear-gradient(135deg, #ff4757 0%, #ff6b81 100%);
+}
+
+.floating-btn:hover {
+    transform: scale(1.1) translateY(-3px);
+    box-shadow: 0 8px 30px rgba(255, 71, 87, 0.5);
+}
+
+.floating-btn:active {
+    transform: scale(0.95);
+}
+
+.floating-btn .btn-icon {
+    font-size: 1.5rem;
+}
+
+/* ألوان الأزرار المختلفة */
+.music-btn {
+    background: linear-gradient(135deg, #a55eea 0%, #8854d0 100%);
+}
+
+.calendar-btn {
+    background: linear-gradient(135deg, #fd9644 0%, #fc5c65 100%);
+}
+
+.notes-btn {
+    background: linear-gradient(135deg, #2bcbba 0%, #26de81 100%);
+}
+
+.dev-btn {
+    background: linear-gradient(135deg, #4b7bec 0%, #3867d6 100%);
+}
+
+.chat-btn {
+    background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
+}
 
 .prediction-btn {
     background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
@@ -2669,6 +2727,45 @@ body::before {
 .prediction-btn:hover {
     box-shadow: 0 0 30px rgba(155, 89, 182, 1), 0 0 60px rgba(155, 89, 182, 0.6);
 }
+
+/* Responsive للموبايل */
+@media (max-width: 768px) {
+    .floating-buttons {
+        bottom: 15px;
+        left: 10px;
+        gap: 8px;
+    }
+
+    .floating-btn {
+        width: 48px;
+        height: 48px;
+    }
+
+    .floating-btn .btn-icon {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .floating-buttons {
+        bottom: 10px;
+        left: 8px;
+        gap: 6px;
+    }
+
+    .floating-btn {
+        width: 42px;
+        height: 42px;
+    }
+
+    .floating-btn .btn-icon {
+        font-size: 1.1rem;
+    }
+}
+
+/* ============================================
+   🔮 نظام التنبؤات
+   ============================================ */
 
 .prediction-modal-content {
     max-width: 550px;
@@ -2861,6 +2958,8 @@ body::before {
 @media (max-width: 768px) {
     .prediction-modal-content {
         max-width: 95%;
+        max-height: 85vh;
+        overflow-y: auto;
     }
 
     .prediction-content {
@@ -2868,7 +2967,8 @@ body::before {
         padding: 1rem;
     }
 
-    .advice-prediction {
+    .advice-prediction,
+    .quran-prediction {
         grid-column: span 1;
     }
 
@@ -2878,5 +2978,9 @@ body::before {
 
     .prediction-header h2 {
         font-size: 1.3rem;
+    }
+
+    .quran-verse-text {
+        font-size: 1rem !important;
     }
 }
